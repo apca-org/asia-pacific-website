@@ -29,10 +29,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // ======== 新闻内容加载逻辑 ========
     
     const newsIndexPath = "/assets/data/news-index.json"; // 数据源指向索引文件
-    
+
     // 检查当前页面是否是新闻详情页模板
-    if (window.location.pathname.includes('/news/detail.html')) {
-        loadNewsDetailMD(newsIndexPath); // 传入路径
+    // 检查 pathname 是否包含 '/news/detail' (能匹配 detail.html 和 detail)
+    if (window.location.pathname.includes('/news/detail')) {
+        loadNewsDetailMD(newsIndexPath); 
     }
     
     // 尝试渲染首页最新新闻 (只显示 3 条)
