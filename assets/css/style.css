@@ -1,0 +1,1432 @@
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: "Noto Sans JP", "Hiragino Sans", sans-serif; line-height:1.6; color:#333; }
+/* 主页全部css↓*/
+/* 1. Header + Logo */
+header {
+  padding: 20px 5%;
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: #003087;
+}
+.logo img {
+  height: 60px;
+  margin-right: 15px;
+}
+/* Logo 可点击回到顶部（首页 + 所有子页面通用） */
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.3s ease;
+}
+.logo-link:hover {
+  opacity: 0.8;
+}
+.logo-link img {
+  pointer-events: none; /* 防止图片挡住点击 */
+}
+
+/* 2. Navigation */
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 40px;
+}
+nav > ul > li {
+  position: relative;
+}
+nav a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+nav a:hover { color: #003087; }
+
+.dropdown-trigger {
+  cursor: default;
+  color: #333;
+  font-weight: 500;
+}
+.dropdown-trigger:hover {
+  color: #003087;
+}
+
+/* 下拉菜单本体 */
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  min-width: 240px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+  border-radius: 10px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.28s ease;
+  margin-top: 10px;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0; /* 去掉上下多余空白 */
+}
+nav > ul > li:hover .dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(5px);
+}
+.dropdown li {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+.dropdown a {
+  display: block;
+  padding: 14px 24px;
+  color: #333;
+  text-decoration: none;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.dropdown a:hover {
+  background: #f0f4ff;
+  color: #003087;
+  padding-left: 28px;
+}
+
+/* 默认状态：tooltip 完全隐藏 */
+.tooltip {
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-right: 16px;
+  background: #003087;
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.7;
+  width: 380px;
+  white-space: normal;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  pointer-events: none;
+}
+.tooltip::before {
+  content: "";
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 10px solid transparent;
+  border-left-color: #003087;
+}
+.dropdown li:hover > .tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%) translateX(-8px);
+}
+
+/* 小屏时：隐藏 tooltip */
+@media (max-width: 900px) {
+  /* 彻底禁用大屏的 hover 下拉 */
+  nav > ul > li:hover .dropdown {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  /* 隐藏大屏 tooltip */
+  .tooltip { display: none !important; }
+
+  /* 移动端下拉菜单核心样式（修复滑动） */
+  .dropdown {
+    position: fixed;
+    left: 50% !important;
+    transform: translateX(-50%);
+    width: 88vw;
+    top: auto !important; /* 不可删除，防止菜单栏过高 */
+    bottom: auto;
+    max-width: 440px;
+    max-height: calc(100vh - 160px);
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    overflow-y: auto;                    /* 可上下滚动 */
+    overflow-x: hidden;      /* 禁止水平滚动 */
+    -webkit-overflow-scrolling: touch;  /* iOS 回弹顺滑 */
+    touch-action: pan-y;                 /* 确保能上下滑动 */
+    display: block;
+    z-index: 9999;
+    padding: 16px 0;
+    margin-top: 12px;
+    
+    /* 初始隐藏状态 */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;                /* 隐藏时禁止交互 */
+    transform: translateX(-50%) translateY(-20px);
+    transition: all 0.38s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  /* 激活后显示 + 可交互 */
+  .has-dropdown.active .dropdown {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;                /* ← 关键！激活后恢复交互 */
+    transform: translateX(-50%) translateY(8px);
+  }
+  .dropdown a {
+    padding: 12px 16px 12px 24px !important;   /* 右边只留16px空白 */
+    font-size: 15.8px !important;
+    font-weight: 500;
+  }
+}
+
+/* 3. Slider */
+.swiper {
+  width: 100%;
+  height: 60vh;
+  min-height: 500px;
+  overflow: hidden;
+}
+.swiper-slide {
+  position: relative; /* 绝对定位的参照物 */
+  flex-shrink: 0; /* 防止 loop 时 slide 被压缩 */
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.swiper-slide img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.swiper-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 48px;
+  font-weight: bold;
+  text-shadow: 0 0 20px rgba(0,0,0,0.7);
+  z-index: 10;
+  pointer-events: none; /* 防止文字挡住点击事件 */
+  text-align: center;
+  white-space: nowrap;
+  padding: 0 20px;
+}
+/* 视频专属样式 —— 只针对 .slide-video 生效，绝不影响图片滑块 */
+.swiper-slide .slide-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;        /* 完美填满 + 智能裁边 */
+  background: #000;
+  z-index: 1;
+}
+@media (max-width: 768px) {
+  .swiper-text { font-size: 32px; }
+}
+@media (max-width: 480px) {
+  .swiper-text { font-size: 24px; }
+}
+
+/* 4. 最近新闻 */
+.news-section {
+  max-width: 1200px;
+  margin: 80px auto;
+  padding: 0 5%;
+}
+.section-title {
+  font-size: 32px;
+  margin-bottom: 40px;
+  text-align: center;
+  color: #003087;
+}
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+.news-card {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+.news-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+.news-card .content {
+  padding: 20px;
+}
+.news-card .date {
+  color: #999;
+  font-size: 14px;
+}
+
+/* 5. 会社紹介 + 会社沿革 */
+.company-overview-section {
+  background: linear-gradient(180deg, 
+    #eef4ff 0%,      /* 比原来 #f8f9ff 稍微深一点的浅蓝 */
+    #f8fbff 45%, 
+    #ffffff 100%);
+  padding: 120px 5% 160px;
+  overflow: hidden;
+}
+/* 公司介绍部分 */
+.company-intro {
+  max-width: 1200px;
+  margin: 0 auto 140px auto;     /* 关键：底部留出空间给沿革标题 */
+}
+.company-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.company-text h2 { font-size: 40px; margin-bottom: 30px; color: #003087; }
+.company-text p { font-size: 16px; margin-bottom: 20px; }
+
+/* 沿革标题区（自然承接，不需要任何分隔带） */
+.history-header {
+  text-align: center;
+  margin-bottom: 100px;
+}
+.history-header h2 {
+  font-size: 40px;
+  font-weight: 700;
+  color: #003087;
+  margin-bottom: 20px;
+  letter-spacing: 0.08em;
+}
+.history-header p {
+  font-size: 18px;
+  color: #0050b3;
+  font-weight: 500;
+  margin-bottom: 32px;
+}
+.history-header .decoline {
+  width: 160px;
+  height: 6px;
+  background: #003087;
+  margin: 0 auto;
+  border-radius: 3px;
+}
+
+/* 时间轴 */
+.history-section {
+  padding: 100px 5% 140px;
+  background: #fff;
+}
+
+.history-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.history-section h2 {
+  font-size: 36px;
+  text-align: center;
+  margin-bottom: 80px;
+  color: #003087;
+}
+
+.timeline {
+  position: relative;
+  padding: 0;
+}
+
+/* 垂直主线 - 永远在正中间 */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background: #003087;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+/* 底部倒三角箭头 - 永远和主线对齐 */
+.timeline::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -28px;
+  width: 0;
+  height: 0;
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+  border-top: 28px solid #003087;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.timeline-item:nth-child(even) {
+  flex-direction: row-reverse;  /* 偶数项反转：内容在右 */
+}
+
+/* 年份标签 - 绝对定位在中心，永不移动 */
+.timeline-year {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.78);   /* 半透明白色背景 */
+  backdrop-filter: blur(12px);          /* 背景模糊 */
+  -webkit-backdrop-filter: blur(12px);  /* Safari 兼容 */
+  border: 1px solid rgba(255,255,255,0.5); /* 半透明白边框 */
+  border-radius: 50px;                     /* 圆角胶囊形 */
+  padding: 13px 30px;
+  font-weight: 800;
+  font-size: 20px;
+  color: #003087;
+  white-space: nowrap;
+  z-index: 3;
+  box-shadow: 0 8px 32px rgba(0,48,135,0.15);
+}
+
+/* 内容卡片 - 动态宽度，永不挤压 */
+.timeline-content {
+  width: calc(50% - 70px);  /* 50% 减去年份宽度/2 + 间隙，确保对齐中心线 */
+  background: #f8f9ff;
+  padding: 28px 34px;
+  border-radius: 12px;
+  border-left: 6px solid #003087;
+  box-shadow: 0 6px 20px rgba(0,50,135,0.1);
+  max-width: 480px;
+}
+
+.timeline-content p {
+  margin: 0;
+  font-size: 16.5px;
+  line-height: 1.75;
+}
+
+/* 偶数项内容反转时，border-right 代替 border-left */
+.timeline-item:nth-child(even) .timeline-content {
+  border-left: none;
+  border-right: 6px solid #003087;
+}
+
+/* 中屏优化：如果宽度不足，略微压缩内容宽度但不挤年份 */
+@media (max-width: 1000px) {
+  .timeline-content {
+    width: calc(45% - 60px);
+    padding: 24px 28px;
+  }
+  .timeline-year {
+    font-size: 18px;
+    padding: 8px 20px;
+  }
+}
+
+/* 6. 并列式事業内容 */
+.business-grid-section {
+  padding: 120px 5% 140px;
+  background: #fff;
+}
+
+.business-grid-section .section-title {
+  text-align: center;
+  font-size: 40px;
+  color: #003087;
+  margin-bottom: 80px;
+  position: relative;
+}
+.business-grid-section .section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 5px;
+  background: #003087;
+  border-radius: 3px;
+}
+
+.business-grid {
+  max-width: 1260px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px;
+}
+
+.business-card {
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0,48,135,0.08);
+  transition: all 0.4s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.business-card:hover {
+  transform: translateY(-16px);
+  box-shadow: 0 25px 60px rgba(0,48,135,0.18);
+}
+
+.business-card a {
+  display: block;
+  padding: 50px 30px;
+  text-decoration: none;
+  color: inherit;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+}
+
+.business-card a::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border: 4px solid transparent;
+  border-radius: 20px;
+  transition: all 0.4s;
+}
+
+.business-card:hover a::before {
+  border-color: #003087;
+}
+
+.business-card .num {
+  font-size: 56px;
+  font-weight: 900;
+  color: transparent;
+  background: linear-gradient(135deg, #003087, #0050b3);
+  -webkit-background-clip: text;
+  background-clip: text;
+  margin-bottom: 16px;
+  opacity: 0.15;
+}
+
+.business-card .title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #003087;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.business-card .desc {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.7;
+}
+
+/* 手机优化 */
+@media (max-width: 640px) {
+  .business-grid { gap: 30px; }
+  .business-card a { padding: 40px 20px; }
+  .business-card .num { font-size: 46px; }
+  .business-card .title { font-size: 21px; }
+}
+
+/* 7. 創始者（社长）寄语 */
+.founder-section {
+  padding: 120px 5%;
+  background: linear-gradient(135deg, #f8faff 0%, #f0f4ff 100%);
+  overflow: hidden;
+}
+
+.founder-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.founder-photo {
+  justify-self: center;
+}
+
+.founder-photo img {
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;               /* 圆形头像 */
+  object-fit: cover;
+  border: 8px solid #fff;
+  box-shadow: 0 15px 40px rgba(0, 48, 135, 0.18);
+}
+
+.founder-message h2 {
+  font-size: 36px;
+  color: #003087;
+  margin-bottom: 40px;
+  text-align: left;
+}
+
+.founder-message blockquote {
+  font-size: 22px;
+  line-height: 2;
+  color: #003087;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  font-weight: 500;
+}
+
+.founder-message blockquote::before {
+  content: '“';
+  position: absolute;
+  left: -40px;
+  top: -20px;
+  font-size: 120px;
+  color: rgba(0, 48, 135, 0.12);
+  font-family: Georgia, serif;
+}
+
+.founder-name {
+  margin-top: 40px;
+  font-size: 20px;
+  color: #003087;
+  font-weight: 700;
+}
+
+.founder-name span {
+  font-size: 24px;
+  display: block;
+  margin: 8px 0;
+}
+
+.founder-name small {
+  margin-top: -40px;
+  display: block;
+  font-weight: 400;
+  color: #555;
+  font-size: 16px;
+}
+
+/* 移动端响应式 */
+@media (max-width: 900px) {
+  .founder-inner {
+    grid-template-columns: 1fr;
+    gap: 50px;
+    text-align: center;
+  }
+  .founder-photo img {
+    width: 240px;
+    height: 240px;
+  }
+  .founder-message h2 {
+    font-size: 32px;
+  }
+  .founder-message blockquote {
+    font-size: 19px;
+    line-height: 1.9;
+  }
+  .founder-message blockquote::before {
+    left: 50%;
+    transform: translateX(-50%);
+    top: -40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .founder-photo img {
+    width: 200px;
+    height: 200px;
+  }
+  .founder-message blockquote {
+    font-size: 18px;
+  }
+}
+
+/* 8. お問い合わせ（Footer形式） */
+footer {
+  background: #003087;
+  color: #fff;
+  padding: 80px 5% 40px;
+}
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 40px;
+}
+.footer-contact h3 { font-size: 24px; margin-bottom: 20px; }
+.footer-contact p { margin-bottom: 10px; }
+.qr-code {
+  text-align: center;
+}
+.qr-code img {
+  width: 150px;
+  height: 150px;
+  background: #fff;
+  padding: 10px;
+  border-radius: 8px;
+}
+.qr-code p { margin-top: 10px; font-size: 14px; }
+
+@media (max-width: 768px) {
+/* Header 和 Footer 响应式 */
+.header-inner { 
+  flex-direction: column; 
+  gap: 20px; 
+}
+nav ul { 
+  flex-wrap: wrap; 
+  justify-content: center; 
+  gap: 20px;
+}
+.company-inner, 
+.footer-inner { 
+  grid-template-columns: 1fr; 
+}
+
+/* === 关键：timeline 小屏终极校准（强制覆盖）=== */
+.timeline::before,
+.timeline::after {
+  left: 40px !important;
+  transform: none !important;     /* 彻底干掉大屏的 translateX(-50%) */
+}
+.timeline::after {
+  margin-left: -14px;             /* 箭头尖端精准对齐主线中心 */
+}
+.timeline-item {
+  flex-direction: column !important;
+  align-items: flex-start;
+  padding-left: 90px;
+  position: relative;
+}
+.timeline-year {
+  left: 40px !important;
+  top: 0;
+  transform: translateX(-50%);
+  font-size: 18px;
+  padding: 8px 18px;
+}
+.timeline-content {
+  width: 100%;
+  max-width: none;
+  margin-top: 48px;
+  border-left: 6px solid #003087 !important;
+  border-right: none !important;
+}
+.swiper-text { font-size: 32px; }
+}
+@media (max-width: 480px) {
+.timeline-item { padding-left: 70px; }
+.timeline-year { 
+  left: 35px !important; 
+  font-size: 17px; 
+  padding: 6px 14px; 
+}
+.timeline::before,
+.timeline::after { 
+  left: 35px !important; 
+}
+.timeline::after { margin-left: -14px; }
+.timeline-content { margin-top: 42px; padding: 20px 24px; }
+.swiper-text { font-size: 24px; }
+}
+/* 主页全部css↑*/
+
+/* 英華塾-主视觉 */
+.eihua-hero {
+  position: relative; height: 70vh; min-height: 560px;
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+  url('../../images/eihua-juku/eihua-hero.jpg') center/cover no-repeat;
+  display: flex; align-items: center; justify-content: center; color: #fff; text-align: center;
+}
+.circle-title {
+  text-align: center; line-height: 1.4; font-weight: 900;
+}
+.circle-title h1 { font-size: 68px; letter-spacing: 0.08em; }
+.circle-title .en { font-size: 48px; letter-spacing: 0.15em; }
+.circle-title .since { font-size: 22px; margin-top: 20px; opacity: 0.9; }
+
+/* 内容区通用 */
+.section { padding: 120px 5%; max-width: 1200px; margin: 0 auto; }
+.section h2 {
+  font-size: 42px; text-align: center; color: #003087; margin-bottom: 80px;
+  position: relative;
+}
+.section h2::after {
+  content: ''; position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%);
+  width: 90px; height: 5px; background: #003087; border-radius: 3px;
+}
+
+.advantages-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 50px;
+}
+.adv-card {
+  background: #fff; padding: 40px 30px; border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0,48,135,0.08); text-align: center;
+}
+.adv-card h3 { font-size: 26px; color: #003087; margin-bottom: 20px; }
+
+.highlight-section { background: linear-gradient(135deg, #f8faff 0%, #f0f4ff 100%); }
+.daily-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+}
+.daily-grid img { width: 100%; border-radius: 16px; box-shadow: 0 15px 40px rgba(0,48,135,0.15); }
+.teacher-intro {
+  display: grid; grid-template-columns: 280px 1fr; gap: 60px; align-items: center;
+}
+.teacher-photo img { width: 280px; height: 280px; border-radius: 50%; object-fit: cover; border: 8px solid #fff; box-shadow: 0 15px 40px rgba(0,48,135,0.2); }
+
+/* 文化・経済交流のサポート-主视觉 */
+.cultural-hero {
+  position: relative;
+  height: 70vh;
+  min-height: 520px;
+  background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), 
+  url('../../images/cultural-support/culture-hero.jpg') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+}
+.cultural-hero h1 {
+  font-size: 52px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.cultural-hero p {
+  font-size: 22px;
+  margin-top: 20px;
+  opacity: 0.95;
+}
+@media (max-width: 768px) {
+  .cultural-hero h1 { font-size: 38px; }
+  .cultural-hero p { font-size: 18px; }
+}
+
+/* 内容区 */
+.content-section {
+  padding: 100px 5% 140px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.section-title {
+  font-size: 40px;
+  text-align: center;
+  color: #003087;
+  margin-bottom: 80px;
+  position: relative;
+}
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 5px;
+  background: #003087;
+  border-radius: 3px;
+}
+
+/* 服务列表 */
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 50px;
+  margin-top: 60px;
+}
+.service-card {
+  background: #fff;
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0,48,135,0.08);
+  text-align: center;
+  transition: all 0.4s;
+}
+.service-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 20px 50px rgba(0,48,135,0.16);
+}
+.service-card .icon {
+  font-size: 64px;
+  margin-bottom: 24px;
+  color: #003087;
+}
+.service-card h3 {
+  font-size: 24px;
+  color: #003087;
+  margin-bottom: 16px;
+}
+
+/* 业绩展示 */
+.achievement {
+  background: linear-gradient(135deg, #f8faff 0%, #f0f4ff 100%);
+  padding: 100px 5%;
+  text-align: center;
+}
+.achievement-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;
+  max-width: 1000px;
+  margin: 60px auto 0;
+}
+.achievement-item span {
+  display: block;
+  font-size: 48px;
+  font-weight: 900;
+  color: #003087;
+}
+.achievement-item p {
+  font-size: 18px;
+  margin-top: 12px;
+  color: #555;
+}
+
+/* 上海中日校企連盟会-主视觉 */
+.sjcaa-hero {
+  position: relative;
+  height: 70vh;
+  min-height: 520px;
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+  url('../../images/sjcaa/sjcaa-hero.jpg') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+}
+.sjcaa-hero h1 {
+  font-size: 52px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.sjcaa-hero p {
+  font-size: 22px;
+  margin-top: 20px;
+  opacity: 0.95;
+}
+@media (max-width: 768px) {
+  .sjcaa-hero h1 { font-size: 38px; }
+  .sjcaa-hero p { font-size: 18px; }
+}
+
+.content-section {
+  padding: 100px 5% 140px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.section-title {
+  font-size: 40px;
+  text-align: center;
+  color: #003087;
+  margin-bottom: 80px;
+  position: relative;
+}
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 5px;
+  background: #003087;
+  border-radius: 3px;
+}
+
+/* 简介区块 */
+.intro-text {
+  font-size: 18px;
+  line-height: 2;
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto 80px;
+}
+
+/* 特色服务 */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 40px;
+  margin-top: 60px;
+}
+.news-card {
+  display: block;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0,48,135,0.08);
+  transition: all 0.4s;
+  text-decoration: none;
+  color: inherit;
+}
+.news-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 20px 50px rgba(0,48,135,0.16);
+}
+.news-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+.news-card-content {
+  padding: 24px 20px 28px;
+}
+.news-card time {
+  display: block;
+  font-size: 14px;
+  color: #003087;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+.news-card h3 {
+  font-size: 18px;
+  line-height: 1.5;
+  color: #333;
+  margin: 0;
+}
+
+/* 手机端优化 */
+@media (max-width: 768px) {
+  .news-card img { height: 180px; }
+  .news-card h3 { font-size: 17px; }
+}
+
+/* 数据展示 */
+.stats {
+  background: linear-gradient(135deg, #f8faff 0%, #f0f4ff 100%);
+  padding: 100px 5%;
+  text-align: center;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  max-width: 1100px;
+  margin: 60px auto 0;
+}
+.stats-item span {
+  display: block;
+  font-size: 52px;
+  font-weight: 900;
+  color: #003087;
+}
+.stats-item p {
+  font-size: 18px;
+  margin-top: 12px;
+  color: #555;
+}
+
+/* 日中好友会-主视觉 */
+.jcfa-hero {
+  position: relative;
+  height: 70vh;
+  min-height: 520px;
+  background: linear-gradient(rgba(0,0,0,0.52), rgba(0,0,0,0.52)), 
+  url('../../images/jcfa/jcfa-hero.jpg') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+}
+.jcfa-hero h1 {
+  font-size: 52px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+.jcfa-hero p {
+  font-size: 23px;
+  margin-top: 24px;
+  opacity: 0.95;
+}
+@media (max-width: 768px) {
+  .jcfa-hero h1 { font-size: 38px; }
+  .jcfa-hero p { font-size: 18px; }
+}
+
+.content-section {
+  padding: 100px 5% 140px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.section-title {
+  font-size: 40px;
+  text-align: center;
+  color: #003087;
+  margin-bottom: 80px;
+  position: relative;
+}
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 5px;
+  background: #003087;
+  border-radius: 3px;
+}
+
+.intro-text {
+  font-size: 18px;
+  line-height: 2.1;
+  text-align: center;
+  max-width: 920px;
+  margin: 0 auto 90px;
+}
+
+/* 活动领域卡片 */
+.activity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 44px;
+  margin-top: 60px;
+}
+.activity-card {
+  background: #fff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 35px rgba(0,48,135,0.09);
+  transition: all 0.4s;
+}
+.activity-card:hover {
+  transform: translateY(-14px);
+  box-shadow: 0 24px 60px rgba(0,48,135,0.18);
+}
+.activity-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+.activity-text {
+  padding: 32px 28px;
+}
+.activity-card h3 {
+  font-size: 24px;
+  color: #003087;
+  margin-bottom: 16px;
+}
+
+/* 数字实绩 */
+.achieve {
+  background: linear-gradient(135deg, #fff9f0 0%, #fff4e6 100%);
+  padding: 110px 5%;
+  text-align: center;
+}
+.achieve-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 50px;
+  max-width: 1100px;
+  margin: 70px auto 0;
+}
+.achieve-item span {
+  display: block;
+  font-size: 56px;
+  font-weight: 900;
+  color: #d94f2c;
+}
+.achieve-item p {
+  font-size: 19px;
+  margin-top: 14px;
+  color: #555;
+}
+
+footer { background: #003087; color: #fff; padding: 80px 5% 40px; }
+.footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; }
+.footer-contact h3 { font-size: 24px; margin-bottom: 20px; }
+.qr-code img { width: 150px; height: 150px; background: #fff; padding: 10px; border-radius: 8px; }
+
+@media (max-width: 768px) {
+  .header-inner { flex-direction: column; gap: 20px; }
+  nav ul { flex-wrap: wrap; justify-content: center; gap: 20px; }
+  .footer-inner { grid-template-columns: 1fr; text-align: center; }
+}
+
+
+/* ====================================
+   パンくずリスト (Breadcrumb)
+   ==================================== */
+.breadcrumb {
+    /* ページのコンテンツ幅に合わせ、中央寄せにする */
+    max-width: 1200px; /* メインコンテンツの最大幅に合わせる */
+    margin: 10px auto 10px; /* 上下にマージンを設定 */
+    padding: 0 20px; /* 左右にパディングを設定（モバイル対応） */
+}
+
+.breadcrumb ol {
+    display: flex; /* 項目を横並びにする */
+    list-style: none; /* リストの点（・）を削除 */
+    padding: 0;
+    margin: 0;
+    font-size: 14px; /* サイズは少し小さめに */
+    color: #666; /* 現在地はグレーで目立ちすぎないように */
+}
+
+.breadcrumb li {
+    /* 区切り記号のためのスペースを確保 */
+    margin-right: 15px; 
+    position: relative;
+    /* 最後の項目（現在のページ）の文字は太字にする */
+    font-weight: 400; 
+}
+
+/* 最後の項目（現在のページ）には区切り記号をつけない */
+.breadcrumb li:last-child {
+    margin-right: 0;
+    font-weight: 700; /* 現在地を太字に */
+    color: #333; /* またはブランドカラーを薄く使う */
+}
+
+/* 区切り記号のデザイン */
+.breadcrumb li:not(:last-child)::after {
+    content: '>'; /* 区切り記号 */
+    margin-left: 15px;
+    color: #999; /* グレーで目立ちすぎないように */
+    font-weight: 400; /* 太字にしない */
+}
+
+/* リンク（ホーム）のデザイン */
+.breadcrumb li a {
+    text-decoration: none; /* 下線を削除 */
+    color: #003087; /* ブランドカラーを使用 */
+    transition: color 0.2s;
+}
+
+.breadcrumb li a:hover {
+    color: #0056b3; /* ホバーで少し濃くする */
+    text-decoration: underline; /* ホバー時に下線を表示 */
+}
+
+/* モバイル対応 */
+@media (max-width: 768px) {
+    .breadcrumb {
+        margin: 15px auto 30px;
+        padding: 0 15px;
+    }
+    .breadcrumb ol {
+        font-size: 13px;
+    }
+}
+
+/* 页面专属样式：新闻主视觉区域 */
+.news-hero {
+  position: relative;
+  height: 60vh;
+  min-height: 400px;
+  /* 路径修正: 从 news/ 向上回到根目录，再进入 images/common/ */
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+              url('../images/common/news-hero.jpg') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+  background-color: #003087;
+}
+.page-hero h1 { font-size: 52px; font-weight: 700; letter-spacing: 0.1em; }
+.page-hero p { font-size: 22px; margin-top: 20px; opacity: 0.95; }
+@media (max-width: 768px) {
+  .page-hero h1 { font-size: 38px; }
+  .page-hero p { font-size: 18px; }
+}
+.news-list-title {
+    font-size: 40px; text-align: center; color: #003087; margin-bottom: 80px; position: relative;
+}
+.news-list-title::after {
+    content: ''; position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%);
+    width: 90px; height: 5px; background: #003087; border-radius: 3px;
+}
+
+/* =========================================
+   新闻列表分页样式 (Pagination)
+   ========================================= */
+
+/* 1. 容器样式 (对应原始的 <div style="...">) */
+.pagination {
+    /* text-align: center; */
+    text-align: center; 
+    /* margin-top: 50px; */
+    margin-top: 50px; 
+    /* font-size: 18px; (应用于容器中的所有文本/链接) */
+    font-size: 18px; 
+    /* 确保分页元素之间有空间 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 2. 链接和页码的通用样式 (对应原始的 <a> 和 <span>) */
+.pagination .page-link {
+    /* 对应原始的 a 标签样式：text-decoration: none; */
+    text-decoration: none; 
+    /* 对应原始的 span/a 标签间距：margin: 0 15px; */
+    margin: 0 15px; 
+    /* 默认颜色 (例如 2 和 3 的颜色 #333) */
+    color: #333; 
+    /* 确保光标是手型 */
+    cursor: pointer;
+    /* 增加可点击区域的内边距，使其更友好 */
+    padding: 5px 0; 
+}
+
+/* 3. 当前页的样式 (对应原始的 <span style="... #003087; font-weight: bold;">) */
+.pagination .current-page {
+    color: #003087; /* #003087 */
+    font-weight: bold; /* bold */
+    cursor: default; /* 当前页不可点击 */
+}
+
+/* 4. 禁用/上一个链接的特殊样式 (对应原始的 <a style="... #999;"> ) */
+.pagination .prev-page.inactive,
+.pagination .page-link[href="#"].inactive { /* 当链接不可用时 */
+    color: #999; /* #999 */
+    pointer-events: none; /* 禁用点击事件 */
+}
+
+/* 新聞ページ(news-detail)全体の共通設定 */
+.article-container {
+    max-width: 800px; /* 記事の本文は読みやすい幅に制限 */
+    margin: 60px auto 100px;
+    padding: 0 20px;
+}
+
+/* 記事ヘッダー */
+.article-header {
+    margin-bottom: 40px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 20px;
+}
+
+.article-header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: #003087;
+    margin-bottom: 10px;
+}
+
+.article-meta {
+    font-size: 14px;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.article-meta .category {
+    background-color: #003087;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-weight: 500;
+}
+
+/* 記事本文 */
+.article-body {
+    line-height: 1.8;
+    font-size: 16px;
+    color: #333;
+}
+
+.article-body p {
+    margin-bottom: 20px;
+}
+
+.article-body img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 30px 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ページナビゲーション（前後の記事へのリンク） */
+.pagination-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 60px;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+.pagination-nav a {
+    color: #003087;
+    text-decoration: none;
+    padding: 10px 15px;
+    border: 1px solid #003087;
+    border-radius: 5px;
+    transition: background-color 0.2s, color 0.2s;
+    font-size: 14px;
+}
+
+.pagination-nav a:hover {
+    background-color: #003087;
+    color: #fff;
+}
+
+.pagination-nav .prev { order: 1; }
+.pagination-nav .all-news { order: 2; margin: 0 auto; }
+.pagination-nav .next { order: 3; }
+
+/* news-list.htmlから流用したブレッドクラムCSSを調整 */
+.breadcrumb {
+    max-width: 800px;
+    margin: 20px auto 30px; 
+}
+/* navのニュース項目を current にするCSSを仮にここに追記 */
+.header-inner nav ul li.current a {
+    color: #fff; 
+    background-color: #003087; 
+    border-radius: 4px;
+    padding: 5px 10px;
+}
+/* 新聞ページ(news-detail)全体の共通設定↑ */

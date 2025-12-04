@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>記事の詳細 | 株式会社アジア太平洋協力会</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    <link rel="stylesheet" href="/assets/css/style.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="header"></div>
+    
+    <nav class="breadcrumb" aria-label="breadcrumb" id="breadcrumb-container">
+        <ol>
+            <li><a href="/index.html">ホーム</a></li>
+            <li><a href="/news/news-list.html">ニュース一覧</a></li>
+            <li id="breadcrumb-article-title"></li> 
+        </ol>
+    </nav>
+
+    <main>
+        <div class="article-container">
+            <div class="article-header">
+                <div class="article-meta">
+                    <span id="article-category" class="category"></span> 
+                    <time id="article-date" datetime=""></time>
+                </div>
+                <h1 id="article-title"></h1> 
+            </div>
+
+            <div id="article-body-content" class="article-body">
+                <p>記事を読み込んでいます...</p>
+            </div>
+
+            <div id="pagination-nav-container" class="pagination-nav">
+                <a href="/news/news-list.html" class="all-news">ニュース一覧へ戻る</a>
+                </div>
+            
+        </div>
+    </main>
+
+    <div id="footer"></div>
+
+    <script src="/assets/js/script.js" defer></script> 
+</body>
+</html>

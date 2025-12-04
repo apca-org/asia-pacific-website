@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>株式会社アジア太平洋協力会</title>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- 隐藏home按钮 -->
+    <style>
+    .nav-home {display: none !important;}
+    </style>
+    
+    <div id="header"></div>
+
+    <main>
+        <!-- 3. Slider -->
+        <div class="swiper">
+            <!-- 必须有这一层 swiper-wrapper -->
+            <div class="swiper-wrapper">
+                <!-- 第1屏：Sora 视频 -->
+                <div class="swiper-slide">
+                    <video class="slide-video" 
+                           autoplay muted loop playsinline 
+                           poster="images/home/slide1.jpg">
+                        <source src="video/slider1.webm" type="video/webm">
+                        <source src="video/slider1.mp4" type="video/mp4">
+                        <img src="images/home/slide1.jpg" alt="アジア太平洋協力会">
+                    </video>
+                    <div class="swiper-text">アジア太平洋協力会</div>
+                </div>
+                <!-- 第2屏：原来静态图 -->
+                <div class="swiper-slide">
+                    <img src="images/home/slide2.jpg" alt="未来を共に創る">
+                    <div class="swiper-text">未来を共に創る</div>
+                </div>
+                <!-- 第3屏：原来静态图 -->
+                <div class="swiper-slide">
+                    <img src="images/home/slide3.jpg" alt="教育と協力の架け橋">
+                    <div class="swiper-text">教育と協力の架け橋</div>
+                </div>
+            </div><!-- swiper-wrapper 结束 -->
+            <!-- 分页、小圆点、箭头全都在外面 -->
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+        <!-- 4. 最近のニュース -->
+        <section id="news" class="news-section">
+            <h2 class="section-title">最近のニュース</h2>
+
+            <div id="latest-news-cards" class="news-grid">
+            </div>
+
+            <!-- 按钮：news-list.html页面 -->
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="news/news-list.html" style="
+                    display: inline-block;
+                    padding: 12px 40px;
+                    background-color: #003087; /* 使用你的主色调 */
+                    color: #fff;
+                    border-radius: 50px;
+                    font-weight: bold;
+                    text-decoration: none;
+                    transition: all 0.3s;
+                ">
+                    最新情報をもっと見る
+                </a>
+            </div>
+        </section>
+        <!-- 5. 会社紹介沿革 -->
+        <section class="company-overview-section" id="about-company">
+            <div class="company-overview-inner">
+                <!-- 会社紹介 -->
+                <div class="company-intro">
+                    <div class="company-inner">
+                        <div class="company-text">
+                            <h2>会社紹介</h2>
+                            <p>株式会社アジア太平洋協力会は、教育、文化、経済における国際交流の支援を行う機関です。</p>
+                            <p>創立以来20年の実績を持ち、国際交流において重要な人材の育成に尽力してきました。</p>
+                            <p>今後も国際交流を支える活動を継続してまいります。</p>
+                        </div>
+                        <div>
+                            <img src="images/home/about-company.png" alt="会社写真" style="width:100%; border-radius:12px;">
+                        </div>
+                    </div>
+                </div>
+                <!-- 沿革标题（自然过渡） -->
+                <div class="history-header">
+                    <h2>会社沿革</h2>
+                    <p>— 20年の歩みとこれからの挑戦 —</p>
+                    <div class="decoline"></div>
+                </div>
+                <!-- 时间轴 -->
+                <div class="timeline">
+                    <div class="timeline-item">
+                    <div class="timeline-year">2005年11月</div>
+                    <div class="timeline-content">
+                        <p>株式会社アジア太平洋協力会を設立し、【東京アジア学友会】日本語学校を運営。大学院進学および就職に特化した指導コースの提供を開始。</p>
+                    </div>
+                    </div>
+                    <div class="timeline-item">
+                    <div class="timeline-year">2006年1月</div>
+                    <div class="timeline-content">
+                        <p>株式会社フォーラムエンジニアと業務提携し、理系人材の採用に関するコンサルティング契約を開始。</p>
+                    </div>
+                    </div>
+                    <div class="timeline-item">
+                    <div class="timeline-year">2007年3月</div>
+                    <div class="timeline-content">
+                        <p>株式会社ファンケルと業務提携し、店舗スタッフの採用に関するコンサルティング契約を開始。</p>
+                    </div>
+                    </div>
+                    <div class="timeline-item">
+                    <div class="timeline-year">2009年3月</div>
+                    <div class="timeline-content">
+                        <p>ファンケルグループの株式会社アテニアとコンサルティング提携を開始し、上海支社設立を支援。</p>
+                    </div>
+                    </div>
+                    <div class="timeline-item">
+                    <div class="timeline-year">2013年1月</div>
+                    <div class="timeline-content">
+                        <p>新世界教育グループとのコンサル業務提携を開始。</p>
+                    </div>
+                    </div>
+                    <div class="timeline-item">
+                    <div class="timeline-year">2014年4月</div>
+                    <div class="timeline-content">
+                        <p>日東電工グループの株式会社二トムズとコンサル業務提携を開始。</p>
+                    </div>
+                    </div>
+                    <div class="timeline-item">
+                    <div class="timeline-year">2015年4月</div>
+                    <div class="timeline-content">
+                        <p>大木グループの上海支社とコンサル業務提携を開始。</p>
+                    </div>
+                    </div>
+                    <div class="timeline-item">
+                    <div class="timeline-year">2019年10月</div>
+                    <div class="timeline-content">
+                        <p>英華塾を設立し、大学および大学院進学の指導を開始。</p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- 6. 并列式事业内容（顶级企业风） -->
+        <section class="business-grid-section">
+            <h2 class="section-title">事業内容</h2>
+            
+            <div class="business-grid">
+                
+                <div class="business-card">
+                    <a href="eihua-juku/index.html">
+                        <div class="num">01</div>
+                        <div class="title">英華塾</div>
+                        <div class="desc">高校・大学・大学院進学指導<br>学生の夢の実現を全力サポート</div>
+                    </a>
+                </div>
+                
+                <div class="business-card">
+                    <a href="cultural-support/index.html">
+                        <div class="num">02</div>
+                        <div class="title">文化・経済交流<br>のサポート</div>
+                        <div class="desc">国際文化交流と経済活動の促進<br>各国間の相互理解を深める支援</div>
+                    </a>
+                </div>
+                
+                <div class="business-card">
+                    <a href="sjcaa/index.html">
+                        <div class="num">03</div>
+                        <div class="title">上海中日校企<br>連盟会</div>
+                        <div class="desc">中日大学・企業連携の促進<br>産学共同プロジェクトと人材育成</div>
+                    </a>
+                </div>
+                
+                <div class="business-card">
+                    <a href="jcfa/index.html">
+                        <div class="num">04</div>
+                        <div class="title">日中好友会</div>
+                        <div class="desc">日中民間友好交流の深化<br>文化・人的交流の推進</div>
+                    </a>
+                </div>
+                <!-- 以后新增业务直接复制上面整个 <div class="business-card"> 即可 -->
+            </div>
+        </section>
+        <!-- 7. 創始者（社长）的一句话 -->
+        <section class="founder-section">
+            <div class="founder-inner">
+                <div class="founder-photo">
+                    <img src="images/home/president.jpg" alt="代表取締役社長">
+                </div>
+                <div class="founder-message">
+                    <h2>創始者のひとこと</h2>
+                    <blockquote>
+                        「アジア太平洋地域の若者が互いに理解し、信頼し合い、<br>
+                        共に未来を切り開いていく。その架け橋となることが<br>
+                        私たちアジア太平洋協力会の使命であり、<br>
+                        20年間変わらず持ち続けている信念です。」
+                    </blockquote>
+                    <p class="founder-name">
+                        代表取締役会長　<span>葉 維英</span><br>
+                        <small>You Iein</small>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- 9. お問い合わせ（Footer） -->
+    <footer id="contact">
+        <div class="footer-inner">
+            <div class="footer-contact">
+                <h3>株式会社アジア太平洋協力会</h3>
+                <p>〒259-0304 神奈川県足柄下郡湯河原町宮下380-12</p>
+                <p>TEL: 04-6562-2886</p>
+                <p>Email: apca.asia.office@gmail.com</p>
+            </div>
+            <div class="qr-code">
+                <img src="images/common/wechat-qr.jpg" alt="WeChat QR">
+                <p>微信二维码</p>
+            </div>
+            <div class="qr-code">
+                <img src="images/common/line-qr.jpg" alt="LINE QR">
+                <p>LINE公式アカウント</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/script.js" defer></script>
+</body>
+</html>
