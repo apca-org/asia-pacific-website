@@ -3,37 +3,101 @@
     <div class="logo">
       <a href="/index.html" class="logo-link">
         <img src="/images/common/logo.png" alt="株式会社アジア太平洋協力会">
-        <span>株式会社アジア太平洋協力会</span>
+        <span class="lang-ja">株式会社アジア太平洋協力会</span>
+        <span class="lang-zh" lang="zh">亚太合作会有限公司</span>
       </a>
     </div>
     <nav>
       <ul>
-        <!-- nav-home用于隐藏ホーム按钮 -->
-        <li class="nav-home"><a href="/index.html">ホーム</a></li>
-        <li><a href="/index.html#about-company">会社紹介・沿革</a></li>
-        <li><a href="/news/news-list.html">ニュース</a></li>
+        <!-- nav-home用于隐藏ホーム按钮，nav-home的style已单独添加到首页 -->
+        <li class="nav-home">
+          <a href="/index.html">
+            <span class="lang-ja">ホーム</span>
+            <span class="lang-zh" lang="zh">首页</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/index.html#about-company">
+            <span class="lang-ja">会社紹介・沿革</span>
+            <span class="lang-zh" lang="zh">公司介绍・沿革</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="/news/news-list.html">
+            <span class="lang-ja">ニュース</span>
+            <span class="lang-zh" lang="zh">新闻</span>
+          </a>
+        </li>
+
         <li class="has-dropdown">
-          <a href="javascript:void(0)" class="dropdown-trigger active">事業内容 <span style="font-size:10px;">▼</span></a>
-          <ul class="dropdown">
+          <a href="javascript:void(0)" class="dropdown-trigger active">
+            <span class="lang-ja">事業内容 <span style="font-size:10px;">▼</span></span>
+            <span class="lang-zh" lang="zh">业务内容 <span style="font-size:10px;">▼</span></span>
+          </a>
+
+          <ul class="dropdown"><!-- 下拉菜单栏 -->
             <li>
-              <a href="/eihua-juku/index.html">英華塾</a>
-              <div class="tooltip">高校・大学・大学院進学指導、寄宿制集訓で短期間での飛躍的成長を実現</div>
+              <a href="/eihua-juku/index.html">
+                <span class="lang-ja">英華塾</span>
+                <span class="lang-zh" lang="zh">英华塾</span>
+              </a>
+              <div class="tooltip">
+                <span class="lang-ja">高校・大学・大学院進学指導、寄宿制集訓で短期間での飛躍的成長を実現</span>
+                <span class="lang-zh" lang="zh">高中・大学・研究生考试辅导，寄宿制集训实现短期飞跃式成长</span>
+              </div>
             </li>
+
             <li>
-              <a href="/cultural-support/index.html">文化・経済交流のサポート</a>
-              <div class="tooltip">国際文化交流や経済活動を促進し、各国の理解を深める支援</div>
+              <a href="/cultural-support/index.html">
+                <span class="lang-ja">文化・経済交流のサポート</span>
+                <span class="lang-zh" lang="zh">文化・经济交流支持</span>
+              </a>
+              <div class="tooltip">
+                <span class="lang-ja">国際文化交流や経済活動を促進し、各国の理解を深める支援</span>
+                <span class="lang-zh" lang="zh">促进国际文化交流和经济活动，加深各国相互理解的支持</span>
+              </div>
             </li>
+
             <li>
-              <a href="/sjcaa/index.html">上海中日校企連盟会</a>
-              <div class="tooltip">中日大学・企業連携の促進、校企共同プロジェクト</div>
+              <a href="/sjcaa/index.html">
+                <span class="lang-ja">上海中日校企連盟会</span>
+                <span class="lang-zh" lang="zh">上海中日校企联盟会</span>
+              </a>
+              <div class="tooltip">
+                <span class="lang-ja">中日大学・企業連携の促進、校企共同プロジェクト</span>
+                <span class="lang-zh" lang="zh">促进中日大学・企业联动，校企共同项目</span>
+              </div>
             </li>
+
             <li>
-              <a href="/jcfa/index.html">日中好友会</a>
-              <div class="tooltip">日中民間友好交流の深化、文化・人的交流の推進</div>
+              <a href="/jcfa/index.html">
+                <span class="lang-ja">日中友好会</span>
+                <span class="lang-zh" lang="zh">中日友好会</span>
+              </a>
+              <div class="tooltip">
+                <span class="lang-ja">日中民間友好交流の深化、文化・人的交流の推進</span>
+                <span class="lang-zh" lang="zh">深化中日民间友好交流，推动文化・人士交流</span>
+              </div>
             </li>
+            <!-- 业务扩展可续 -->
+
           </ul>
         </li>
-        <li><a href="/index.html#contact">お問い合わせ</a></li>
+        
+        <li>
+          <a href="/index.html#contact">
+            <span class="lang-ja">お問い合わせ</span>
+            <span class="lang-zh" lang="zh">联系我们</span>
+          </a>
+        </li>
+
+        <li class="lang-switch-mini">
+          <button type="button" onclick="switchLang('ja')" class="lb">JA</button>
+          <button type="button" onclick="switchLang('zh')" class="lb">中</button>
+        </li>
+
       </ul>
     </nav>
   </div>

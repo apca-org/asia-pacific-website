@@ -1,3 +1,21 @@
+// ========================================================= 
+// 多语言切换核心（轻量、零依赖、永久生效）
+// =========================================================
+function switchLang(lang) {
+  document.documentElement.setAttribute('data-lang', lang);
+  document.documentElement.lang = (lang === 'zh') ? 'zh-CN' : 'ja';
+  
+  // 记住用户选择，下次自动恢复
+  localStorage.setItem('siteLang', lang);
+}
+
+// 页面加载完成时自动恢复上次选择的语言（默认日文）
+document.addEventListener('DOMContentLoaded', function () {
+  const savedLang = localStorage.getItem('siteLang') || 'ja';
+  switchLang(savedLang);
+});
+
+
 // =========================================================
 // 1. Swiper 初始化
 // =========================================================
@@ -325,3 +343,4 @@ function renderPaginationNav(prevArticle, nextArticle) {
     // 覆盖 detail.html 模板中原本的 <a href="../../news-list.html" class="all-news"> 及其相邻的静态链接
     navContainer.innerHTML = navHTML;
 }
+

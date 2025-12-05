@@ -48,6 +48,7 @@ nav ul {
   display: flex;
   list-style: none;
   gap: 40px;
+  align-items: center;
 }
 nav > ul > li {
   position: relative;
@@ -205,6 +206,56 @@ nav > ul > li:hover .dropdown {
     font-weight: 500;
   }
 }
+/* ====================== 语言切换按钮（导航栏最右侧） ====================== */
+header .lang-switch-mini {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 100%;                         /* 撑满 li 高度 */
+}
+
+header .lang-switch-mini .lb {
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid #ccc;
+  background: #fff;
+  color: #333;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 900;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+}
+
+header .lang-switch-mini .lb:hover {
+  border-color: #003087;
+  transform: scale(1.1);
+}
+
+/* 当前语言高亮：日 → 实心蓝，中文 → 实心蓝 */
+html:not([data-lang="zh"]) .lang-switch-mini .lb:nth-child(1),
+html[data-lang="zh"]       .lang-switch-mini .lb:nth-child(2) {
+  background: #003087;
+  color: #fff;
+  border-color: #003087;
+}
+
+/* 手机端（可选：如果你手机菜单是垂直的，可以再微调） */
+@media (max-width: 960px) {
+  header .lang-switch-mini {
+    margin-left: 20px;
+    gap: 8px;
+  }
+  header .lang-switch-mini .lb {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+  }
+}
+
 
 /* 3. Slider */
 .swiper {
@@ -822,13 +873,13 @@ nav ul {
 .timeline-content { margin-top: 42px; padding: 20px 24px; }
 .swiper-text { font-size: 24px; }
 }
-/* 主页全部css↑*/
+/* ===================主页全部css↑=================== */
 
-/* 英華塾-主视觉 */
+/* ===================英華塾-主视觉================= */
 .eihua-hero {
   position: relative; height: 70vh; min-height: 560px;
   background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-  url('../../images/eihua-juku/eihua-hero.jpg') center/cover no-repeat;
+  url('/images/eihua-juku/eihua-hero.jpg') center/cover no-repeat;
   display: flex; align-items: center; justify-content: center; color: #fff; text-align: center;
 }
 .circle-title {
@@ -838,7 +889,103 @@ nav ul {
 .circle-title .en { font-size: 48px; letter-spacing: 0.15em; }
 .circle-title .since { font-size: 22px; margin-top: 20px; opacity: 0.9; }
 
-/* 内容区通用 */
+/* ==================== 英华塾 · 浓墨淡笔水墨终极版 ==================== */
+.eihua-ink-pro {
+  padding: 160px 5% 180px;
+  background: #fdfdfd;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+/* 两团极淡的墨晕（比之前更轻，几乎不可见） */
+.eihua-ink-pro::before {
+  content: ""; position: absolute;
+  top: 10%; left: 5%;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(40,40,40,0.025) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: rotate(25deg);
+  pointer-events: none;
+}
+.eihua-ink-pro::after {
+  content: ""; position: absolute;
+  bottom: 15%; right: 6%;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(30,30,30,0.02) 0%, transparent 68%);
+  border-radius: 50%;
+  transform: rotate(-15deg);
+  pointer-events: none;
+}
+
+.eihua-ink-pro-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* 古诗标题：强制单行、浓黑、稍小但极有力量 */
+.eihua-ink-pro-title {
+  font-size: 40px;                    /* 比之前小一号，但更紧实 */
+  font-weight: 900;
+  color: #0e0e0e;
+  letter-spacing: 0.22em;
+  margin-bottom: 80px;
+  font-family: "Noto Serif SC", "Noto Serif JP", "KaiTi", "楷体", serif;
+  white-space: nowrap;               /* 强制单行 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 正文：浓黑 + 超大行距 + 重点淡墨提行 */
+.eihua-ink-pro-text {
+  font-size: 20px;
+  line-height: 2.8;                   /* 行距拉到最大，像宣纸行书 */
+  color: #111;
+  max-width: 860px;
+  margin: 0 auto 70px;
+  font-family: "Noto Serif SC", "Noto Serif JP", serif;
+}
+
+/* 重点句：用淡墨 + 更大字 + 提行，极有书法感 */
+.eihua-ink-pro-text strong {
+  display: block;
+  margin: 1.2em 0;
+  font-size: 23px;
+  font-weight: 800;
+  color: #333;                        /* 淡墨，不刺眼但有层次 */
+  letter-spacing: 0.08em;
+  line-height: 1.9;
+}
+
+/* 签名：小号浓黑，极简 */
+.eihua-ink-pro-sign {
+  font-size: 18px;
+  color: #000;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  font-family: "Noto Serif SC", "KaiTi", serif;
+}
+
+/* 手机端 */
+@media (max-width: 768px) {
+  .eihua-ink-pro { padding: 120px 5% 140px; }
+  .eihua-ink-pro-title { 
+    font-size: 32px; 
+    letter-spacing: 0.15em;
+    margin-bottom: 70px;
+  }
+  .eihua-ink-pro-text { 
+    font-size: 18.5px; 
+    line-height: 2.6; 
+  }
+  .eihua-ink-pro-text strong { 
+    font-size: 21px; 
+  }
+}
+
+/* ===============内容区通用============= */
 .section { padding: 120px 5%; max-width: 1200px; margin: 0 auto; }
 .section h2 {
   font-size: 42px; text-align: center; color: #003087; margin-bottom: 80px;
@@ -858,15 +1005,260 @@ nav ul {
 }
 .adv-card h3 { font-size: 26px; color: #003087; margin-bottom: 20px; }
 
-.highlight-section { background: linear-gradient(135deg, #f8faff 0%, #f0f4ff 100%); }
-.daily-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+/* ========= 一大亮点 – 极致紧凑 + 完美断行版 ========= */
+.highlight-section {
+  padding: 80px 5%;                      /* 上下大幅压缩 */
+  background: linear-gradient(135deg, #f8faff 0%, #f0f4ff 100%);
+  text-align: center;
 }
-.daily-grid img { width: 100%; border-radius: 16px; box-shadow: 0 15px 40px rgba(0,48,135,0.15); }
+
+.highlight-section h2 {
+  font-size: 42px;
+  color: #003087;
+  margin-bottom: 70px;                   /* 标题与内容距离也收紧 */
+  position: relative;
+}
+.highlight-section h2::after {
+  content: '';
+  position: absolute;
+  bottom: -16px; left: 50%; transform: translateX(-50%);
+  width: 90px; height: 5px; background: #003087; border-radius: 3px;
+}
+
+.highlight-content {
+  max-width: 960px;
+  margin: 0 auto;
+  font-size: 18.5px;                     /* 稍小一点，更紧致 */
+  line-height: 2.2;
+  color: #222;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;                             /* 关键：段间距从48→32 */
+  text-align: center;                    /* 改居中，更高级 */
+  counter-reset: item;                   /* 为装饰准备计数器 */
+}
+
+.highlight-content p {
+  position: relative;
+  padding-left: 38px;                    /* 留空间给装饰线 */
+  margin: 0;
+  text-align: left;
+  text-align: left;                      /* 文字左对齐，整体容器居中 */
+  
+  /* === 彻底解决中文断行露头问题 === */
+  word-break: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* 装饰：从菱形 → 极细短横线（更日式、更有呼吸感） */
+.highlight-content p::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.75em;                           /* 与文字更贴合 */
+  width: 22px;
+  height: 2px;
+  background: #003087;
+  opacity: 0.25;
+  border-radius: 1px;
+}
+
+/* 手机端（完美适配） */
+@media (max-width: 768px) {
+  .highlight-section {
+    padding: 70px 5% 80px;
+  }
+  .highlight-section h2 {
+    font-size: 36px;
+    margin-bottom: 60px;
+  }
+  .highlight-content {
+    font-size: 17px;
+    line-height: 2.1;
+    gap: 28px;
+    max-width: 100%;
+    padding: 0 10px;
+  }
+  .highlight-content p {
+    padding-left: 32px;
+  }
+  .highlight-content p::before {
+    width: 18px;
+  }
+}
+
+/* =============== 教务主任介绍 – 完整响应式 =============== */
+.teacher-section {
+  padding: 120px 5%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .teacher-intro {
-  display: grid; grid-template-columns: 280px 1fr; gap: 60px; align-items: center;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 80px;
+  align-items: center;
 }
-.teacher-photo img { width: 280px; height: 280px; border-radius: 50%; object-fit: cover; border: 8px solid #fff; box-shadow: 0 15px 40px rgba(0,48,135,0.2); }
+
+.teacher-photo img {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 10px solid #fff;
+  box-shadow: 0 20px 50px rgba(0,48,135,0.2);
+}
+
+.teacher-content h3 {
+  font-size: 32px;
+  color: #003087;
+  margin-bottom: 30px;
+  line-height: 1.4;
+}
+
+.teacher-content p {
+  font-size: 18px;
+  line-height: 2;
+  color: #333;
+}
+
+/* 平板 1024px 以下：左右并排 → 上下排列 */
+@media (max-width: 1024px) {
+  .teacher-intro {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 50px;
+  }
+  .teacher-photo {
+    justify-self: center;
+  }
+  .teacher-photo img {
+    width: 280px;
+    height: 280px;
+  }
+}
+
+/* 手机 640px 以下：进一步缩小 */
+@media (max-width: 640px) {
+  .teacher-content h3 {
+    font-size: 26px;
+  }
+  .teacher-content p {
+    font-size: 16px;
+    line-height: 1.9;
+  }
+  .teacher-photo img {
+    width: 220px;
+    height: 220px;
+    border-width: 8px;
+  }
+}
+/* ========= 英华塾的日常 – 彻底解决小屏图片混乱 ========= */
+.daily-section {
+  padding: 120px 5%;
+  max-width: 1400px;
+  margin: 0 auto;
+  background: #f8fbff;
+}
+.daily-section h2 {
+  font-size: 42px;
+  text-align: center;
+  color: #003087;
+  margin-bottom: 80px;
+  position: relative;
+}
+.daily-section h2::after {
+  content: '';
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 5px;
+  background: #003087;
+  border-radius: 3px;
+}
+
+/* 每组是一个完整的「卡片块」，内部再分图片区+文字区 */
+.daily-item {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 60px;
+  align-items: center;
+  margin-bottom: 120px;
+  background: #fff;
+  padding: 50px 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0,48,135,0.08);
+}
+.daily-item:last-child { margin-bottom: 0; }
+.daily-item.reverse { grid-template-columns: 380px 1fr; }
+
+/* 大屏下图片区 */
+.daily-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 18px;
+}
+.daily-images img {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,48,135,0.15);
+  transition: transform 0.4s ease;
+}
+.daily-images img:hover { transform: translateY(-8px); }
+
+/* 文字区 */
+.daily-text h3 {
+  font-size: 28px;
+  color: #003087;
+  margin-bottom: 20px;
+}
+.daily-text p {
+  font-size: 17px;
+  line-height: 1.9;
+  color: #333;
+}
+
+/* ——————— 关键响应式：每组完整卡片化，上下排列时永远是「图+文」或「文+图」紧跟 ——————— */
+@media (max-width: 1024px) {
+  .daily-item,
+  .daily-item.reverse {
+    grid-template-columns: 1fr;        /* 上下排列 */
+    text-align: center;
+    padding: 40px 30px;
+    gap: 40px;
+  }
+  .daily-item.reverse .daily-text {   /* reverse 的组文字在上 */
+    order: -1;
+  }
+  .daily-images {
+    grid-template-columns: repeat(3, 1fr);  /* 仍然保持 3 列整齐 */
+    gap: 16px;
+  }
+  .daily-images img { height: 170px; }
+}
+
+@media (max-width: 640px) {
+  .daily-item { 
+    padding: 30px 20px;
+    margin-bottom: 80px;
+  }
+  .daily-images {
+    grid-template-columns: 1fr 1fr;   /* 手机只显示 2 列，彻底清晰 */
+    gap: 12px;
+  }
+  .daily-images img { 
+    height: 150px; 
+    border-radius: 10px;
+  }
+  .daily-text h3 { font-size: 24px; }
+  .daily-text p { font-size: 16px; }
+}
 
 /* 文化・経済交流のサポート-主视觉 */
 .cultural-hero {
@@ -1479,3 +1871,27 @@ footer { background: #003087; color: #fff; padding: 80px 5% 40px; }
     padding: 5px 10px;
 }
 /* 新聞ページ(news-detail)全体の共通設定↑ */
+
+
+/* ──────────────────────────────
+   多语言切换 + 中文显示
+   ────────────────────────────── */
+/* 1. 内容切换（全站通用） */
+.lang-ja { display: block; }
+.lang-zh { display: none; }
+html[data-lang="zh"] .lang-ja { display: none !important; }
+html[data-lang="zh"] .lang-zh { display: block !important; }
+
+/* 关键：只有加了 .has-zh-font 的页面，才在中文模式下换中文字体 */
+body.has-zh-font .lang-zh,
+body.has-zh-font :lang(zh) {
+  font-family: "Noto Sans SC", "Noto Sans JP", system-ui, -apple-system, sans-serif !important;
+  /* 故意不改 line-height / letter-spacing / font-weight → 完全保持日文排版一致 */
+}
+
+/* 可选：如果你希望这些页面的中文标题稍微重一点（不喜欢就删掉这几行） */
+body.has-zh-font html[data-lang="zh"] h1,
+body.has-zh-font html[data-lang="zh"] h2,
+body.has-zh-font html[data-lang="zh"] h3 {
+  font-weight: 750;     /* 介于日文的 500 和 900 之间，自然好看 */
+}
